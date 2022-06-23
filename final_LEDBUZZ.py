@@ -9,18 +9,17 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(16,GPIO.OUT)
 GPIO.output(16,GPIO.LOW)
-#p=GPIO.PWM(16,100)
-#p.start(0)
-# Create the haar cascade
+
+# haar cascade 생성
 faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 while(True):
-	# Capture frame-by-frame
+	# frame으로 캡쳐
 	ret, frame = cap.read()
 
-	# Our operations on the frame come here
+	# RGB->Gray
 	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-	# Detect faces in the image
+	# 이미지에서 얼굴 검출
 	faces = faceCascade.detectMultiScale(
 		gray,
 		scaleFactor=1.1,
@@ -29,11 +28,9 @@ while(True):
 		#flags = cv2.CV_HAAR_SCALE_IMAGE
 	)
 
-	print("Found {0} faces!".format(len(faces)))
-		
-	#else GPIO.output(signalPIN, GPIO.LOW)
+	print("Found {0} faces!".format(len(faces))) # 얼굴을 찾으면 1, 아니면 0을 출력
     
-	# Draw a rectangle around the faces
+	# 얼굴에 네모박스 바운딩
 	for (x, y, w, h) in faces:
 		cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 	if ((len(faces))!=0):
@@ -46,12 +43,12 @@ while(True):
 		print("BUZZ,LED OFF")
 		#p.ChangeDutyCycle(2.5)
 		
-	# Display the resulting frame
+	# 결과 프레임 보여줌
 	cv2.imshow('frame', frame)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
 
-# When everything done, release the capture
+# 캡쳐 release하고 GPIO 
 cap.release()
 GPIO.cleanup()
 cv2.destroyAllWindows()
