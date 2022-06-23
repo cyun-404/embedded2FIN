@@ -38,13 +38,13 @@ while(True):
 	if ((len(faces))!=0):
 		#GPIO.output(16,GPIO.HIGH)
 		p.ChangeDutyCycle(4.5)
-		print("BUZZ,LED ON")
+		print("Light ON")
 		time.sleep(2.0)
 		
 	else :
 		#GPIO.output(16,GPIO.LOW)
 		p.ChangeDutyCycle(1.5)
-		print("BUZZ,LED OFF")		
+		print("Light OFF")		
 		
 	cv2.imshow('frame', frame)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
